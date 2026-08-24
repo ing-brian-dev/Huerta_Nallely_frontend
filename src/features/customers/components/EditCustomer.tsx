@@ -3,21 +3,21 @@ import { FormProvider, useForm } from "react-hook-form";
 import CustomerForm from "./CustomerForm";
 import { FormSubmit } from "@/shared/forms/FormSubmit";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CustomerUpdateSchema, type CustomerUpdateInput } from "../schemas/customerSchema";
+import { UpdateCustomerSchema, type UpdateCustomerInput } from "../schemas/customerSchema";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { getCustomerById, updateCustomerById } from "../api/customerAPI";
-import { useCustomerModalStore } from "../store/customer.store";
 import ScreenSpinnerLoader from "@/shared/ui/ScreenSpinnerLoader";
+import { useModalStore } from "@/shared/store/modalStore";
 
 export default function EditCustomer() {
 
-  const closeModal = useCustomerModalStore(state => state.closeModal)!;
-  const customerId = useCustomerModalStore(state => state.customerId)!;
+  const id = useModalStore(state => state.id)!;
+  const closeModal = useModalStore(state => state.closeModal)!;
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getCustomerById(customerId),
-    queryKey: ['customer', customerId],
+    queryFn: () => getCustomerById(id),
+    queryKey: ['customer', id],
     refetchOnWindowFocus: false,
     retry: false
   });
@@ -33,18 +33,18 @@ export default function EditCustomer() {
       methods.reset();
       closeModal();
       queryClient.invalidateQueries({ queryKey: ['customers'] });
-      queryClient.invalidateQueries({ queryKey: ['customer', customerId] });
+      queryClient.invalidateQueries({ queryKey: ['customer', id] });
     }
   });
 
   const methods = useForm({
-    resolver: zodResolver(CustomerUpdateSchema),
+    resolver: zodResolver(UpdateCustomerSchema),
     mode: 'all'
   });
 
-  const onSubmit = async (formData: CustomerUpdateInput) => {
+  const onSubmit = async (formData: UpdateCustomerInput) => {
     const data = {
-      id: customerId,
+      id,
       ...formData
     }
     mutate(data);

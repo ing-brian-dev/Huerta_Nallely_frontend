@@ -4,14 +4,21 @@ import type { TableHTMLAttributes } from "react";
 type TableProps = TableHTMLAttributes<HTMLTableElement>;
 
 export default function Table(props: TableProps) {
-    const { className, children } = props;
+    const { className, children, ...rest } = props;
 
     return (
-        <div className="overflow-x-auto rounded-2xl">
+        <div
+            className="
+                w-full overflow-x-auto rounded-[28px]
+                border border-slate-200/80
+                bg-white
+                shadow-md shadow-slate-300/30
+            "
+        >
             <table
-                {...props}
+                {...rest}
                 className={clsx(
-                    "w-full border-collapse text-left text-sm border border-stone-200 bg-white shadow-sm",
+                    "w-full min-w-max border-separate border-spacing-0 text-left",
                     className
                 )}
             >

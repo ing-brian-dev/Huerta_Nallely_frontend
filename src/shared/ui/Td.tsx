@@ -4,13 +4,19 @@ import type { TdHTMLAttributes } from "react";
 type TdProps = TdHTMLAttributes<HTMLTableCellElement>;
 
 export default function Td(props: TdProps) {
-    const { className, children } = props;
+    const { className, children, ...rest } = props;
 
     return (
         <td
-            {...props}
+            {...rest}
             className={clsx(
-                "px-4 py-10 text-center text-sm",
+                `
+                    whitespace-nowrap
+                    px-5 py-4
+                    text-sm
+                    font-medium
+                    text-slate-600
+                `,
                 className
             )}
         >

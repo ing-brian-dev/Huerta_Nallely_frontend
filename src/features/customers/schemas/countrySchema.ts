@@ -9,7 +9,7 @@ export const CountrySchema = z.object({
     updatedAt: z.iso.datetime(),
 });
 
-export const CountryResponseSchema = ServerResponseSchema.extend({
+export const GetCountriesResponseSchema = ServerResponseSchema.extend({
     data: z.array(CountrySchema.omit({
         createdAt: true,
         updatedAt: true,

@@ -1,16 +1,20 @@
-import type { HTMLAttributes } from "react";
 import clsx from "clsx";
+import type { HTMLAttributes } from "react";
 
 type TBodyProps = HTMLAttributes<HTMLTableSectionElement>;
 
 export default function TBody(props: TBodyProps) {
-    const { className, children } = props;
+    const { className, children, ...rest } = props;
 
     return (
         <tbody
-            {...props}
+            {...rest}
             className={clsx(
-                "divide-y divide-stone-100",
+                `
+                divide-y divide-slate-100
+                [&>tr:nth-child(odd)]:bg-white
+                [&>tr:nth-child(even)]:bg-slate-100
+                `,
                 className
             )}
         >

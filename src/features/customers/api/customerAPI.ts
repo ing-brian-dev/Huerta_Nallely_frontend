@@ -1,35 +1,32 @@
-import { ServerResponseSchema } from "@/shared/dashboard/schemas/globalSchema";
-import { CustomersResponseSchema, type CustomerInput, type CustomerUpdateInput, CustomerResponseSchema } from "../schemas/customerSchema";
+import {
+    CreateCustomerResponseSchema,
+    GetCustomerResponseSchema,
+    GetCustomersResponseSchema,
+    UpdateCustomerResponseSchema,
+    type CreateCustomerInput,
+    type UpdateCustomerInput,
+} from "../schemas/customerSchema";
 import { handleApiError } from "@/utils/errorHandler";
-import { CustomerTypeResponseSchema } from "../schemas/customerTypeSchema";
-import { CountryResponseSchema } from "../schemas/countrySchema";
-import api from "@/lib/axios";
-import z from "zod";
 
-export async function createCustomer(formData: CustomerInput) {
+import api from "@/lib/axios";
+import { GetCustomerTypesResponseSchema } from "../schemas/customerTypeSchema";
+import { GetCountriesResponseSchema } from "../schemas/countrySchema";
+
+export async function createCustomer(formData: CreateCustomerInput) {
     try {
         const { data } = await api.post("/customers", formData);
 
-        const response = ServerResponseSchema.extend({
-            data: z.object({})
-        }).parse(data);
-
-        return response;
+        return CreateCustomerResponseSchema.parse(data);
     } catch (error) {
         throw handleApiError(error);
     }
 }
 
-export async function updateCustomerById(formData: CustomerUpdateInput & { id: number }) {
+export async function updateCustomerById(formData: UpdateCustomerInput & { id: number }) {
     try {
         const { id, ...rest } = formData;
         const { data } = await api.put(`/customers/${id}`, rest);
-
-        const response = ServerResponseSchema.extend({
-            data: z.object({})
-        }).parse(data);
-
-        return response;
+        return UpdateCustomerResponseSchema.parse(data);
     } catch (error) {
         throw handleApiError(error);
     }
@@ -39,9 +36,7 @@ export async function getCustomerById(id: number) {
     try {
         const { data } = await api.get(`/customers/${id}`);
 
-        const response = CustomerResponseSchema.parse(data);
-
-        return response;
+        return GetCustomerResponseSchema.parse(data);
     } catch (error) {
         throw handleApiError(error);
     }
@@ -51,9 +46,7 @@ export async function getAllCustomers() {
     try {
         const { data } = await api.get("/customers");
 
-        const response = CustomersResponseSchema.parse(data);
-
-        return response;
+        return GetCustomersResponseSchema.parse(data);
     } catch (error) {
         throw handleApiError(error);
     }
@@ -63,10 +56,7 @@ export async function getAllCustomers() {
 export async function getAllCustomerTypes() {
     try {
         const { data } = await api.get("/customer-types");
-
-        const response = CustomerTypeResponseSchema.parse(data);
-
-        return response;
+        return GetCustomerTypesResponseSchema.parse(data);;
     } catch (error) {
         throw handleApiError(error);
     }
@@ -76,10 +66,7 @@ export async function getAllCustomerTypes() {
 export async function getAllCountries() {
     try {
         const { data } = await api.get("/countries");
-
-        const response = CountryResponseSchema.parse(data);
-
-        return response;
+        return GetCountriesResponseSchema.parse(data);;
     } catch (error) {
         throw handleApiError(error);
     }

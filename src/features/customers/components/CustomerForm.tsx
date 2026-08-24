@@ -1,5 +1,5 @@
 import { Controller, useFormContext } from "react-hook-form";
-import type { CustomerUpdateInput } from "../schemas/customerSchema";
+import type { UpdateCustomerInput } from "../schemas/customerSchema";
 import { FormLabel } from "@/shared/forms/FormLabel";
 import { FormInput } from "@/shared/forms/FormInput";
 import { FormError } from "@/shared/forms/FormError";
@@ -10,7 +10,7 @@ import Spinner from "@/shared/ui/Spinner";
 import { FormSwitch } from "@/shared/forms/FormSwitch";
 
 type CustomerFormProps = {
-  customer?: CustomerUpdateInput;
+  customer?: UpdateCustomerInput;
 }
 
 export default function CustomerForm({ customer }: CustomerFormProps) {
@@ -27,15 +27,7 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
     refetchOnWindowFocus: false
   });
 
-  const { register, formState: { errors }, control } = useFormContext<CustomerUpdateInput>();
-
-  const inputClass = (hasError: boolean) => `
-        w-full rounded-full outline-none shadow-md transition-colors duration-300 ease-in-out placeholder:text-slate-400
-        ${hasError
-      ? `border-red-500 focus:border-amber-300 focus:border-2 border`
-      : `focus:border-green-700 focus:border-2`
-    }
-    `;
+  const { register, formState: { errors }, control } = useFormContext<UpdateCustomerInput>();
 
   return (
     <>
@@ -47,7 +39,7 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
           id="name"
           type="text"
           placeholder="Ingresa el nombre del proveedor"
-          className={inputClass(!!errors.name)}
+          hasError={!!errors.name}
           defaultValue={customer ? customer.name : ''}
           {...register('name')}
         />
@@ -61,12 +53,13 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
           id="phone"
           type="tel"
           placeholder="Ingresa el numero del contacto"
-          className={inputClass(!!errors.phone)}
+          hasError={!!errors.phone}
           defaultValue={customer ? customer.phone : ''}
           {...register('phone')}
         />
         {errors.phone && <FormError>{errors.phone.message}</FormError>}
       </div>
+
       <div className="flex flex-col">
         <FormLabel htmlFor="address">
           Dirección
@@ -75,29 +68,11 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
           id="address"
           type="text"
           placeholder="Ingresa la direccion del contacto"
-          className={inputClass(!!errors.address)}
+          hasError={!!errors.address}
           defaultValue={customer ? customer.address! : ''}
           {...register('address')}
         />
         {errors.address && <FormError>{errors.address.message}</FormError>}
-      </div>
-      <div className="flex flex-col ">
-        <FormLabel htmlFor="isActive">
-          Esta activo
-        </FormLabel>
-        <Controller
-          name="isActive"
-          control={control}
-          defaultValue={customer ? customer.isActive! : false}
-          render={({ field: { value, onChange } }) => (
-            <FormSwitch
-              id="isActive"
-              checked={!!value}
-              onChange={onChange}
-              className={errors.isActive ? 'ring-2 ring-red-500' : ''}
-            />
-          )}
-        />
       </div>
 
       <div className="flex flex-col ">
@@ -108,19 +83,41 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
           id="email"
           type="email"
           placeholder="Ingresa la direccion de email"
-          className={inputClass(!!errors.email)}
+          hasError={!!errors.email}
           defaultValue={customer ? customer.email! : ''}
           {...register('email')}
         />
         {errors.email && <FormError>{errors.email.message}</FormError>}
       </div>
+
+      {customer && (
+        <div className="flex flex-col ">
+          <FormLabel htmlFor="isActive">
+            Esta activo
+          </FormLabel>
+          <Controller
+            name="isActive"
+            control={control}
+            defaultValue={customer ? customer.isActive! : false}
+            render={({ field: { value, onChange } }) => (
+              <FormSwitch
+                id="isActive"
+                checked={!!value}
+                onChange={onChange}
+                className={errors.isActive ? 'ring-2 ring-red-500' : ''}
+              />
+            )}
+          />
+        </div>
+      )}
+
       <div className="flex flex-col ">
         {isLoadingCustomerTypes && (
           <Spinner />
         )}
         {customerTypes && <>
           <FormLabel htmlFor="customer_type_id">
-            Typo de cliente
+            Tipo de cliente
           </FormLabel>
           <Controller
             name="customer_type_id"
