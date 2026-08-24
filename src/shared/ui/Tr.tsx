@@ -4,13 +4,18 @@ import type { HTMLAttributes } from "react";
 type TrProps = HTMLAttributes<HTMLTableRowElement>;
 
 export default function Tr(props: TrProps) {
-    const { className, children } = props;
+    const { className, children, ...rest } = props;
 
     return (
         <tr
-            {...props}
+            {...rest}
             className={clsx(
-                "border-b border-stone-200 bg-stone-50/60",
+                `
+                    bg-white
+                    transition-colors
+                    duration-200
+                    hover:bg-emerald-50/40
+                `,
                 className
             )}
         >

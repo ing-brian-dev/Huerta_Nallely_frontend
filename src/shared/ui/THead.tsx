@@ -4,14 +4,15 @@ import type { HTMLAttributes } from "react";
 type THeadProps = HTMLAttributes<HTMLTableSectionElement>;
 
 export default function THead(props: THeadProps) {
-    const { className, children } = props;
+    const { className, children, ...rest } = props;
 
     return (
         <thead
-            {...props}
+            {...rest}
             className={clsx(
-                "bg-emerald-50",
-                className)}
+                "bg-slate-50/80",
+                className
+            )}
         >
             {children}
         </thead>
