@@ -2,23 +2,15 @@ import { FormError } from "@/shared/forms/FormError";
 import { FormInput } from "@/shared/forms/FormInput";
 import { FormLabel } from "@/shared/forms/FormLabel";
 import { useFormContext } from "react-hook-form";
-import { type SupplierInput, type SupplierSchema } from "../schemas/supplierSchema";
+import type { UpdateSupplierInput } from "../schemas/supplierSchema";
 
 type SupplierFormProps = {
-    supplier?: SupplierSchema;
+    supplier?: UpdateSupplierInput;
 }
 
 export default function SupplierForm({ supplier }: SupplierFormProps) {
 
-    const { register, formState: { errors } } = useFormContext<SupplierInput>();
-
-    const inputClass = (hasError: boolean) => `
-        w-full rounded-full outline-none shadow-md transition-colors duration-300 ease-in-out placeholder:text-slate-400
-        ${hasError
-            ? `border-red-500 focus:border-amber-300 focus:border-2 border`
-            : `focus:border-green-700 focus:border-2`
-        }
-    `;
+    const { register, formState: { errors } } = useFormContext<UpdateSupplierInput>();
 
     return (
         <>
@@ -30,7 +22,7 @@ export default function SupplierForm({ supplier }: SupplierFormProps) {
                     id="name"
                     type="text"
                     placeholder="Ingresa el nombre del proveedor"
-                    className={inputClass(!!errors.name)}
+                    hasError={!!errors.name}
                     defaultValue={supplier ? supplier.name : ''}
                     {...register('name')}
                 />
@@ -45,7 +37,7 @@ export default function SupplierForm({ supplier }: SupplierFormProps) {
                     id="contact_name"
                     type="text"
                     placeholder="Ingresa el nombre del proveedor"
-                    className={inputClass(!!errors.contact_name)}
+                    hasError={!!errors.contact_name}
                     defaultValue={supplier ? supplier.contact_name : ''}
                     {...register('contact_name')}
                 />
@@ -60,7 +52,7 @@ export default function SupplierForm({ supplier }: SupplierFormProps) {
                     id="phone"
                     type="tel"
                     placeholder="Ingresa el numero del contacto"
-                    className={inputClass(!!errors.phone)}
+                    hasError={!!errors.phone}
                     defaultValue={supplier ? supplier.phone : ''}
                     {...register('phone')}
                 />
@@ -75,7 +67,7 @@ export default function SupplierForm({ supplier }: SupplierFormProps) {
                     id="address"
                     type="text"
                     placeholder="Ingresa la direccion del contacto"
-                    className={inputClass(!!errors.address)}
+                    hasError={!!errors.address}
                     defaultValue={supplier ? supplier.address : ''}
                     {...register('address')}
                 />
@@ -90,7 +82,7 @@ export default function SupplierForm({ supplier }: SupplierFormProps) {
                     id="email"
                     type="email"
                     placeholder="Ingresa la direccion de email"
-                    className={inputClass(!!errors.email)}
+                    hasError={!!errors.email}
                     defaultValue={supplier ? supplier.email : ''}
                     {...register('email')}
                 />

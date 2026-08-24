@@ -3,22 +3,23 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import SupplierForm from "./SupplierForm";
 import { FormSubmit } from "@/shared/forms/FormSubmit";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UpdateSupplierSchema, type UpdateSupplier } from "../schemas/supplierSchema";
+import { UpdateSupplierSchema, type UpdateSupplierInput } from "../schemas/supplierSchema";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useSupplierModalStore } from "../store/supplier.store";
-import { getSupplier, updateSupplier } from "../api/supplierAPI";
+import { getSupplierById, updateSupplier } from "../api/supplierAPI";
 import ScreenSpinnerLoader from "@/shared/ui/ScreenSpinnerLoader";
 import { FormLabel } from "@/shared/forms/FormLabel";
 import { FormSwitch } from "@/shared/forms/FormSwitch";
+import { useModalStore } from "@/shared/store/modalStore";
 
 export default function EditSupplier() {
-    const closeModal = useSupplierModalStore(state => state.closeModal);
-    const supplierId = useSupplierModalStore(state => state.supplierId);
+
+    const id = useModalStore(state => state.id)!;
+    const closeModal = useModalStore(state => state.closeModal);
 
     const { data, isLoading } = useQuery({
-        queryFn: () => getSupplier(supplierId),
-        queryKey: ['supplier', supplierId],
+        queryFn: () => getSupplierById(id),
+        queryKey: ['supplier', id],
         refetchOnWindowFocus: false,
         retry: false,
     });
@@ -34,7 +35,7 @@ export default function EditSupplier() {
             methods.reset();
             closeModal();
             queryClient.invalidateQueries({ queryKey: ['suppliers'] });
-            queryClient.invalidateQueries({ queryKey: ['supplier', supplierId] });
+            queryClient.invalidateQueries({ queryKey: ['supplier', id] });
         }
     });
 
@@ -43,12 +44,11 @@ export default function EditSupplier() {
         mode: 'all'
     });
 
-    const onSubmit = (formData: UpdateSupplier) => {
-        const data = {
-            id: supplierId,
+    const onSubmit = (formData: UpdateSupplierInput) => {
+        mutate({
+            id,
             ...formData
-        }
-        mutate(data);
+        });
     }
 
     if (isLoading) return <ScreenSpinnerLoader title="Cargando" subTitle="Obteniendo Proveedor" />;
@@ -83,6 +83,7 @@ export default function EditSupplier() {
                 <FormSubmit
                     value={isPending ? 'Guardando...' : 'Editar Proveedor'}
                     disabled={isPending}
+                    className="md:col-span-2"
                 />
             </Form>
         </FormProvider>

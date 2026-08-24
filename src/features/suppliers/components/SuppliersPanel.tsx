@@ -1,20 +1,28 @@
-import { useSupplierModalStore } from "../store/supplier.store";
 import ButtonAction from "@/shared/ui/ButtonAction";
 import SupplierCard from "./SupplierCard";
 import { useQuery } from "@tanstack/react-query";
 import { getAllSuppliers } from "../api/supplierAPI";
 import ScreenSpinnerLoader from "@/shared/ui/ScreenSpinnerLoader";
-import SupplierActionModal from "./SupplierActionModal";
+import Modal from "@/shared/ui/Modal";
+import { useModalStore } from "@/shared/store/modalStore";
+import EditSupplier from "./EditSupplier";
+import CreateSupplier from "./CreateSupplier";
 
 export default function SuppliersPanel() {
+
+  const id = useModalStore(state => state.id);
+  const open = useModalStore(state => state.open);
+  const openModal = useModalStore(state => state.openModal);
+  const closeModal = useModalStore(state => state.closeModal);
+
+  const isEditing = id !== null;
 
   const { data, isLoading } = useQuery({
     queryKey: ["suppliers"],
     queryFn: getAllSuppliers,
     refetchOnWindowFocus: false,
+    retry: false
   });
-
-  const openModal = useSupplierModalStore(state => state.openModal);
 
   if (isLoading) return <ScreenSpinnerLoader subTitle="Obteniendo Proveedores" />;
 
@@ -23,7 +31,7 @@ export default function SuppliersPanel() {
       <div className="flex justify-end mb-2">
         <ButtonAction
           type="button"
-          onClick={() => openModal({ mode: 'create' })}
+          onClick={() => openModal()}
         >
           Nuevo Proveedor
         </ButtonAction>
@@ -38,7 +46,22 @@ export default function SuppliersPanel() {
           ))}
         </div>
       )}
-      <SupplierActionModal />
+      <Modal
+        open={open}
+        onClose={closeModal}
+        title={isEditing ? "Editar Proveedor" : "Crear Proveedor"}
+        description={
+          isEditing
+            ? "Actualiza la información del Proveedor"
+            : "Ingresa la información del nuevo Proveedor"
+        }
+      >
+        {isEditing ? (
+          <EditSupplier />
+        ) : (
+          <CreateSupplier />
+        )}
+      </Modal>
     </>
   );
 }

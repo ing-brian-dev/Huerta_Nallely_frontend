@@ -23,11 +23,12 @@ export const SupplierSchema = z.object({
     updatedAt: z.iso.datetime({ error: "La fecha de actualización no tiene un formato válido." }),
 });
 
-export const SupplierInputSchema = SupplierSchema.omit({
-    id: true,
-    isActive: true,
-    createdAt: true,
-    updatedAt: true,
+export const CreateSupplierSchema = SupplierSchema.pick({
+    name: true,
+    contact_name: true,
+    phone: true,
+    address: true,
+    email: true,
 });
 
 export const UpdateSupplierSchema = SupplierSchema.pick({
@@ -39,15 +40,23 @@ export const UpdateSupplierSchema = SupplierSchema.pick({
     isActive: true
 });
 
-export const SupplierResponseSchema = ServerResponseSchema.extend({
+export const CreateSupplierResponseSchema = ServerResponseSchema.extend({
+    data: z.object({})
+});
+
+export const UpdateSupplierResponseSchema = ServerResponseSchema.extend({
+    data: z.object({})
+});
+
+export const GetSupplierResponseSchema = ServerResponseSchema.extend({
     data: SupplierSchema
-})
+});
 
-export const SuppliersResponseSchema = ServerResponseSchema.extend({
+export const GetSuppliersResponseSchema = ServerResponseSchema.extend({
     data: z.array(SupplierSchema)
-})
+});
 
 
-export type SupplierInput = z.infer<typeof SupplierInputSchema>;
-export type SupplierSchema = z.infer<typeof SupplierSchema>;
-export type UpdateSupplier = z.infer<typeof UpdateSupplierSchema>;
+export type Supplier = z.infer<typeof SupplierSchema>;
+export type CreateSupplierInput = z.infer<typeof CreateSupplierSchema>;
+export type UpdateSupplierInput = z.infer<typeof UpdateSupplierSchema>;

@@ -2,15 +2,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { Form } from "@/shared/forms/Form";
 import { FormSubmit } from "@/shared/forms/FormSubmit";
-import { SupplierInputSchema, type SupplierInput } from "../schemas/supplierSchema";
-import { useSupplierModalStore } from "../store/supplier.store";
+import { CreateSupplierSchema, type CreateSupplierInput } from "../schemas/supplierSchema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createSupplier } from "../api/supplierAPI";
 import SupplierForm from "./SupplierForm";
 import toast from "react-hot-toast";
+import { useModalStore } from "@/shared/store/modalStore";
 
 export default function CreateSupplier() {
-    const closeModal = useSupplierModalStore(state => state.closeModal);
+
+    const closeModal = useModalStore(state => state.closeModal);
 
     const queryClient = useQueryClient();
     const { mutate, isPending } = useMutation({
@@ -27,11 +28,11 @@ export default function CreateSupplier() {
     });
 
     const methods = useForm({
-        resolver: zodResolver(SupplierInputSchema),
+        resolver: zodResolver(CreateSupplierSchema),
         mode: 'all'
     });
 
-    const onSubmit = (formData: SupplierInput) => {
+    const onSubmit = (formData: CreateSupplierInput) => {
         mutate(formData);
     }
 

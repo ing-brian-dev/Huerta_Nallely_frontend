@@ -1,38 +1,38 @@
-import z from "zod";
 import api from "@/lib/axios";
 import { handleApiError } from "@/utils/errorHandler";
-import { SupplierResponseSchema, SuppliersResponseSchema, type SupplierInput, type UpdateSupplier } from "../schemas/supplierSchema";
-import { ServerResponseSchema } from "@/shared/dashboard/schemas/globalSchema";
+import {
+    CreateSupplierResponseSchema,
+    GetSupplierResponseSchema,
+    GetSuppliersResponseSchema,
+    UpdateSupplierResponseSchema,
+    type CreateSupplierInput,
+    type UpdateSupplierInput,
+} from "../schemas/supplierSchema";
 
-export async function createSupplier(formData: SupplierInput) {
+export async function createSupplier(formData: CreateSupplierInput) {
     try {
         const { data } = await api.post("/suppliers", formData);
 
-        const response = ServerResponseSchema.extend({
-            data: z.object({})
-        }).parse(data);
-
-        return response;
+        return CreateSupplierResponseSchema.parse(data);
     } catch (error) {
         throw handleApiError(error);
     }
 }
 
-export async function getSupplier(id: number) {
+export async function getSupplierById(id: number) {
     try {
         const { data } = await api.get(`/suppliers/${id}`);
-        const response = SupplierResponseSchema.parse(data);
-        return response;
+        return GetSupplierResponseSchema.parse(data);
     } catch (error) {
         throw handleApiError(error);
     }
 }
 
-export async function updateSupplier(formData: UpdateSupplier & { id: number }) {
+export async function updateSupplier(formData: UpdateSupplierInput & { id: number }) {
     try {
         const { id, ...rest } = formData;
-        const { data } = await api.put(`/suppliers/${id}/edit`, rest);
-        return data;
+        const { data } = await api.put(`/suppliers/${id}`, rest);
+        return UpdateSupplierResponseSchema.parse(data);
     } catch (error) {
         throw handleApiError(error);
     }
@@ -41,12 +41,7 @@ export async function updateSupplier(formData: UpdateSupplier & { id: number }) 
 export async function getAllSuppliers() {
     try {
         const { data } = await api.get("/suppliers");
-        const response = SuppliersResponseSchema.parse(data);
-
-        if (response.success) {
-            return response;
-        }
-        throw new Error('Hubo un error');
+        return GetSuppliersResponseSchema.parse(data);
     } catch (error) {
         throw handleApiError(error);
     }

@@ -1,26 +1,27 @@
 import { Phone, Mail, MapPin, Package, DollarSign, Truck, Pencil } from "lucide-react";
-import type { SupplierSchema } from "../schemas/supplierSchema";
+import type { Supplier } from "../schemas/supplierSchema";
 import DropdownMenu from "@/shared/ui/DropdownMenu";
-import { useSupplierModalStore } from "../store/supplier.store";
 import { MenuItem } from "@headlessui/react";
+import { useModalStore } from "@/shared/store/modalStore";
 
 interface SupplierCardProps {
-    data: SupplierSchema;
+    data: Supplier;
     purchases?: number;
     amount?: string;
     lastPurchaseDate?: string;
 }
 
 export default function SupplierCard({ data, purchases, amount, lastPurchaseDate }: SupplierCardProps) {
-    const openModal = useSupplierModalStore((state) => state.openModal);
+
+    const openModal = useModalStore(state => state.openModal);
 
     const initial = data.name?.trim().slice(0, 2).toUpperCase() || "?";
-    const supplierId = data.id;
+
     return (
-        <div
+        <article
             className="
                 w-full max-w-sm rounded-2xl border border-stone-200 bg-white p-5
-                shadow-sm transition-shadow duration-200 hover:shadow-md
+                shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
             "
         >
             {/* Header */}
@@ -41,7 +42,7 @@ export default function SupplierCard({ data, purchases, amount, lastPurchaseDate
                     <MenuItem>
                         <button
                             type="button"
-                            onClick={() => openModal({ mode: 'edit', supplierId })}
+                            onClick={() => openModal(data.id)}
                             className="
                             flex w-full items-center gap-2.5 rounded-lg px-3 py-2
                             text-sm font-medium text-stone-700 transition-colors
@@ -127,6 +128,6 @@ export default function SupplierCard({ data, purchases, amount, lastPurchaseDate
                     </div>
                 </div>
             </div>
-        </div>
+        </article>
     );
 }
