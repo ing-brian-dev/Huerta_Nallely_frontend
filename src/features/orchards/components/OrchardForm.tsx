@@ -102,26 +102,28 @@ export default function OrchardForm({ orchard }: OrchardFormProps) {
                 {errors.registration_date && <FormError>{errors.registration_date.message}</FormError>}
             </div>
 
-            <div className="flex flex-col">
-                <FormLabel htmlFor="isActive">
-                    Esta activo
-                </FormLabel>
-                <Controller
-                    name="isActive"
-                    control={control}
-                    defaultValue={orchard ? orchard.isActive! : false}
-                    render={({ field: { value, onChange } }) => (
-                        <FormSwitch
-                            id="isActive"
-                            checked={!!value}
-                            onChange={onChange}
-                            className={errors.isActive ? 'ring-2 ring-red-500' : ''}
-                        />
-                    )}
-                />
-                {errors.isActive && <FormError>{errors.isActive.message}</FormError>}
+            {orchard && (
+                <div className="flex flex-col">
+                    <FormLabel htmlFor="isActive">
+                        Esta activo
+                    </FormLabel>
+                    <Controller
+                        name="isActive"
+                        control={control}
+                        defaultValue={orchard ? orchard.isActive! : false}
+                        render={({ field: { value, onChange } }) => (
+                            <FormSwitch
+                                id="isActive"
+                                checked={!!value}
+                                onChange={onChange}
+                                className={errors.isActive ? 'ring-2 ring-red-500' : ''}
+                            />
+                        )}
+                    />
+                    {errors.isActive && <FormError>{errors.isActive.message}</FormError>}
 
-            </div>
+                </div>
+            )}
 
             <div className="md:col-span-2">
                 <FormLabel htmlFor="orchard_note">

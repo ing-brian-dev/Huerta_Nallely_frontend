@@ -1,12 +1,12 @@
 import { MapPin, Pencil, Sprout } from "lucide-react";
-import type { OrchardSchema } from "../schemas/orchardSchema";
-import DropdownMenu from "@/shared/ui/DropdownMenu";
 import { MenuItem } from "@headlessui/react";
 import { useModalStore } from "@/shared/store/modalStore";
 import { formDate } from "@/utils/formatter";
+import type { Orchard } from "../schemas/orchardSchema";
+import DropdownMenu from "@/shared/ui/DropdownMenu";
 
 type OrchardCardProps = {
-    orchard: OrchardSchema;
+    orchard: Orchard;
 };
 
 export default function OrchardCard({ orchard }: OrchardCardProps) {

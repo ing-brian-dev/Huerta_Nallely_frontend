@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormSubmit } from "@/shared/forms/FormSubmit";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useCustomerModalStore } from "@/features/customers/store/customer.store";
 import { createOrchard } from "../api/OrchardAPI";
 import OrchardForm from "./OrchardForm";
 import { CreateOrchardSchema, type CreateOrchardInput } from "../schemas/orchardSchema";
