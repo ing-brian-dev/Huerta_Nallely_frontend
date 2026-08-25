@@ -27,14 +27,14 @@ export default function SupplierCard({ data, purchases, amount, lastPurchaseDate
             {/* Header */}
             <div className="flex items-center justify-between gap-3">
                 <div className="flex shrink-0 items-center gap-1.5">
-                    {data.isActive !== undefined && (
+                    {data.is_active !== undefined && (
                         <span
-                            className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium ${data.isActive
+                            className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium ${data.is_active
                                 ? "bg-emerald-50 text-emerald-700"
                                 : "bg-red-50 text-red-500"
                                 }`}
                         >
-                            {data.isActive ? "Activo" : "Inactivo"}
+                            {data.is_active ? "Activo" : "Inactivo"}
                         </span>
                     )}
                 </div>

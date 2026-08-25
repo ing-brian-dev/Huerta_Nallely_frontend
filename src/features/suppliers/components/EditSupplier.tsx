@@ -1,5 +1,5 @@
 import { Form } from "@/shared/forms/Form";
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import SupplierForm from "./SupplierForm";
 import { FormSubmit } from "@/shared/forms/FormSubmit";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,8 +8,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { getSupplierById, updateSupplier } from "../api/supplierAPI";
 import ScreenSpinnerLoader from "@/shared/ui/ScreenSpinnerLoader";
-import { FormLabel } from "@/shared/forms/FormLabel";
-import { FormSwitch } from "@/shared/forms/FormSwitch";
 import { useModalStore } from "@/shared/store/modalStore";
 
 export default function EditSupplier() {
@@ -62,24 +60,6 @@ export default function EditSupplier() {
                 className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4"
             >
                 <SupplierForm supplier={data.data} />
-                <div className="flex flex-col ">
-                    <FormLabel htmlFor="isActive">
-                        Esta activo
-                    </FormLabel>
-                    <Controller
-                        name="isActive"
-                        control={methods.control}
-                        defaultValue={data.data.isActive}
-                        render={({ field: { value, onChange } }) => (
-                            <FormSwitch
-                                id="isActive"
-                                checked={!!value}
-                                onChange={onChange}
-                                className={methods.formState.errors.isActive ? 'ring-2 ring-red-500' : ''}
-                            />
-                        )}
-                    />
-                </div>
                 <FormSubmit
                     value={isPending ? 'Guardando...' : 'Editar Proveedor'}
                     disabled={isPending}

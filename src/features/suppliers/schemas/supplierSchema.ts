@@ -18,7 +18,7 @@ export const SupplierSchema = z.object({
         .max(255, { error: "La dirección no puede superar los 255 caracteres.", }),
     email: z.email()
         .transform((email) => email.trim().toLowerCase()),
-    isActive: z.boolean({ error: "El estado del proveedor debe ser verdadero o falso." }),
+    is_active: z.boolean({ error: "El estado del proveedor debe ser verdadero o falso." }),
     createdAt: z.iso.datetime({ error: "La fecha de creación no tiene un formato válido." }),
     updatedAt: z.iso.datetime({ error: "La fecha de actualización no tiene un formato válido." }),
 });
@@ -37,7 +37,7 @@ export const UpdateSupplierSchema = SupplierSchema.pick({
     phone: true,
     address: true,
     email: true,
-    isActive: true
+    is_active: true
 });
 
 export const CreateSupplierResponseSchema = ServerResponseSchema.extend({

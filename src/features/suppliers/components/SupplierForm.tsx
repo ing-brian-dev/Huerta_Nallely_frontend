@@ -1,8 +1,9 @@
 import { FormError } from "@/shared/forms/FormError";
 import { FormInput } from "@/shared/forms/FormInput";
 import { FormLabel } from "@/shared/forms/FormLabel";
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import type { UpdateSupplierInput } from "../schemas/supplierSchema";
+import { FormSwitch } from "@/shared/forms/FormSwitch";
 
 type SupplierFormProps = {
     supplier?: UpdateSupplierInput;
@@ -10,7 +11,7 @@ type SupplierFormProps = {
 
 export default function SupplierForm({ supplier }: SupplierFormProps) {
 
-    const { register, formState: { errors } } = useFormContext<UpdateSupplierInput>();
+    const { register, formState: { errors }, control } = useFormContext<UpdateSupplierInput>();
 
     return (
         <>
@@ -88,6 +89,27 @@ export default function SupplierForm({ supplier }: SupplierFormProps) {
                 />
                 {errors.email && <FormError>{errors.email.message}</FormError>}
             </div>
+
+            {supplier && (
+                <div className="flex flex-col ">
+                    <FormLabel htmlFor="isActive">
+                        Esta activo
+                    </FormLabel>
+                    <Controller
+                        name="is_active"
+                        control={control}
+                        defaultValue={supplier.is_active}
+                        render={({ field: { value, onChange } }) => (
+                            <FormSwitch
+                                id="is_active"
+                                checked={!!value}
+                                onChange={onChange}
+                                className={errors.is_active ? 'ring-2 ring-red-500' : ''}
+                            />
+                        )}
+                    />
+                </div>
+            )}
         </>
     )
 }
