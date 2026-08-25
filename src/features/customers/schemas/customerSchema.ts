@@ -88,7 +88,7 @@ export const CustomerSchema = z.object({
             error: "Debes seleccionar un tipo de cliente.",
         }),
 
-    isActive: z.boolean({
+    is_active: z.boolean({
         error: "El estado del cliente debe ser verdadero o falso.",
     }),
 
@@ -108,7 +108,7 @@ export const CustomerSchema = z.object({
 export const CustomerWithRelationsSchema = CustomerSchema.extend({
     country: CountrySchema.pick({
         name: true,
-        isoCode: true,
+        iso_code: true,
     }),
 
     customer_type: CustomerTypeSchema.pick({
@@ -137,7 +137,7 @@ export const UpdateCustomerSchema = CustomerSchema.pick({
     email: true,
     country_id: true,
     customer_type_id: true,
-    isActive: true,
+    is_active: true,
 });
 
 /* =========================================================

@@ -96,15 +96,15 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
             Esta activo
           </FormLabel>
           <Controller
-            name="isActive"
+            name="is_active"
             control={control}
-            defaultValue={customer ? customer.isActive! : false}
+            defaultValue={customer ? customer.is_active! : false}
             render={({ field: { value, onChange } }) => (
               <FormSwitch
-                id="isActive"
+                id="is_active"
                 checked={!!value}
                 onChange={onChange}
-                className={errors.isActive ? 'ring-2 ring-red-500' : ''}
+                className={errors.is_active ? 'ring-2 ring-red-500' : ''}
               />
             )}
           />

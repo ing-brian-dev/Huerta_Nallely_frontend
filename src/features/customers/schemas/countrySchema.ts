@@ -4,7 +4,7 @@ import { z } from "zod";
 export const CountrySchema = z.object({
     id: z.number(),
     name: z.string(),
-    isoCode: z.string(),
+    iso_code: z.string(),
     createdAt: z.iso.datetime(),
     updatedAt: z.iso.datetime(),
 });
