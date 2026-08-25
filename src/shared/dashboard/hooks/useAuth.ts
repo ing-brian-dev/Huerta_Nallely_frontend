@@ -13,7 +13,6 @@ export const useAuth = () => {
         queryFn: getUser,
         retry: false,
         refetchOnWindowFocus: false,
-        staleTime: 1000 * 60 * 5
     });
 
     const logout = async () => {

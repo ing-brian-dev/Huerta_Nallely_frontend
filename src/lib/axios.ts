@@ -6,6 +6,18 @@ const api = axios.create({
     withCredentials: true, //cookies acces_token
 });
 
+//Protect the view
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            window.location.href = "/";
+        }
+        return Promise.reject(error);
+    }
+);
+
+// Get errors
 api.interceptors.response.use(
     response => response,
     error => {
