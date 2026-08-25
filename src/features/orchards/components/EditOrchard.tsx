@@ -51,7 +51,7 @@ export default function EditOrchard() {
     }
 
     if (isLoading) return <ScreenSpinnerLoader subTitle="Obteniendo Huerta" />
-    
+        
     if (data) return (
         <FormProvider
             {...methods}

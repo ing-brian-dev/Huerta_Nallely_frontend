@@ -67,7 +67,7 @@ export const OrchardSchema = z.object({
         })
         .nullable(),
 
-    isActive: z
+    is_active: z
         .boolean({
             error: "El estado activo debe ser verdadero o falso.",
         }),
@@ -111,7 +111,7 @@ export const UpdateOrchardSchema = OrchardSchema.pick({
     hectares: true,
     registration_date: true,
     orchard_note: true,
-    isActive: true,
+    is_active: true,
 });
 
 /* =========================================================

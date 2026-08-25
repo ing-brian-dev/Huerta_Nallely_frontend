@@ -108,19 +108,19 @@ export default function OrchardForm({ orchard }: OrchardFormProps) {
                         Esta activo
                     </FormLabel>
                     <Controller
-                        name="isActive"
+                        name="is_active"
                         control={control}
-                        defaultValue={orchard ? orchard.isActive! : false}
+                        defaultValue={orchard ? orchard.is_active! : false}
                         render={({ field: { value, onChange } }) => (
                             <FormSwitch
-                                id="isActive"
+                                id="is_active"
                                 checked={!!value}
                                 onChange={onChange}
-                                className={errors.isActive ? 'ring-2 ring-red-500' : ''}
+                                className={errors.is_active ? 'ring-2 ring-red-500' : ''}
                             />
                         )}
                     />
-                    {errors.isActive && <FormError>{errors.isActive.message}</FormError>}
+                    {errors.is_active && <FormError>{errors.is_active.message}</FormError>}
 
                 </div>
             )}
