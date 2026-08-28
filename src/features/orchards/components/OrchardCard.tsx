@@ -19,12 +19,12 @@ export default function OrchardCard({ orchard }: OrchardCardProps) {
                 {/* Header */}
                 <div className="flex items-center justify-between gap-3">
                     <span
-                        className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold shadow-sm ${orchard.isActive
+                        className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold shadow-sm ${orchard.is_active
                             ? "bg-green-100 text-green-700"
                             : "bg-red-100 text-red-600"
                             }`}
                     >
-                        {orchard.isActive ? "Activa" : "Inactiva"}
+                        {orchard.is_active ? "Activa" : "Inactiva"}
                     </span>
                     <DropdownMenu >
                         <MenuItem>
