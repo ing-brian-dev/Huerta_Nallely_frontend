@@ -15,6 +15,7 @@ import EditSupplier from "./features/suppliers/components/EditSupplier";
 import UsersPanel from "./features/users/components/UsersPanel";
 import ProfilePanel from "./features/users/components/ProfilePanel";
 import LoginPanel from "./features/auth/components/LoginPanel";
+import ProductsPanel from "./features/products/components/ProductsPanel";
 
 export default function router() {
     return (
@@ -28,6 +29,7 @@ export default function router() {
                     <Route element={<DashboardLayout />} >
                         <Route path="/dashboard" element={<SalesPanel />} />
                         <Route path="/dashboard/orchards" element={<OrchardsPanel />} />
+                        <Route path="/dashboard/products" element={<ProductsPanel />} />
                         <Route path="/dashboard/sales" element={<SalesPanel />} />
                         <Route path="/dashboard/harvests" element={<HarvestsPanel />} />
                         <Route path="/dashboard/expenses" element={<ExpensesPanel />} />
