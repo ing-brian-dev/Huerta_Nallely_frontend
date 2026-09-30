@@ -1,20 +1,16 @@
 import ButtonAction from "@/shared/ui/ButtonAction";
 import CreateOrchard from "./CreateOrchard";
-import EditOrchard from "./EditOrchard";
-import Modal from "@/shared/ui/Modal";
 import { useModalStore } from "@/shared/store/modalStore";
 import { useQuery } from "@tanstack/react-query";
 import { getAllOrchards } from "../api/OrchardAPI";
 import ScreenSpinnerLoader from "@/shared/ui/ScreenSpinnerLoader";
 import OrchardCard from "./OrchardCard";
+import CropDistribution from "./CropDistribution";
 
 
 export default function OrchardsPanel() {
 
-  const open = useModalStore((state) => state.open);
-  const id = useModalStore((state) => state.id);
   const openModal = useModalStore((state) => state.openModal);
-  const closeModal = useModalStore((state) => state.closeModal);
 
   const { data, isLoading } = useQuery({
     queryFn: getAllOrchards,
@@ -23,7 +19,6 @@ export default function OrchardsPanel() {
     retry: false
   });
 
-  const isEditing = id !== null;
   if (isLoading) return <ScreenSpinnerLoader subTitle="Obteniendo Huertas" />;
 
   return (
@@ -31,38 +26,34 @@ export default function OrchardsPanel() {
       <div className="flex justify-end mb-2">
         <ButtonAction
           type="button"
-          onClick={() => openModal()}
+          onClick={() =>
+            openModal({
+              title: "Crear cultivo",
+              description:
+                "Ingresa la información del nuevo cultivo",
+              size: "md",
+              content: (
+                <CreateOrchard />
+              ),
+            })
+          }
         >
-          Nueva Huerta
+          Agregar Huerta
         </ButtonAction>
       </div>
       {data && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          {data.data.map(orchard => (
-            <OrchardCard
+        <div className="space-y-4">
+          {data.data.map((orchard) => (
+            <div
               key={orchard.id}
-              orchard={orchard}
-            />
+              className="grid lg:grid-cols-2 items-center w-full overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl gap-4 p-4"
+            >
+              <OrchardCard orchard={orchard} />
+              <CropDistribution orchard={orchard} />
+            </div>
           ))}
         </div>
       )}
-
-      <Modal
-        open={open}
-        onClose={closeModal}
-        title={isEditing ? "Editar Huerta" : "Crear Huerta"}
-        description={
-          isEditing
-            ? "Actualiza la información del Huerta"
-            : "Ingresa la información del nuevo Huerta"
-        }
-      >
-        {isEditing ? (
-          <EditOrchard />
-        ) : (
-          <CreateOrchard />
-        )}
-      </Modal>
     </>
   );
 }
