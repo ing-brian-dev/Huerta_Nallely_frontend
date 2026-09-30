@@ -3,7 +3,6 @@ import AuthLayout from "./features/auth/layouts/AuthLayout";
 import NotFoundView from "./shared/ui/NotFoundView";
 import SalesPanel from "./features/sales/components/SalesPanel";
 import OrchardsPanel from "./features/orchards/components/OrchardsPanel";
-import DashboardLayout from "./shared/dashboard/components/DashboardLayout";
 import ProtectedRoute from "./shared/dashboard/components/ProtectedRoute";
 import AgrochemicalsPanel from "./features/agrochemicals/components/AgrochemicalsPanel";
 import HarvestsPanel from "./features/harvests/components/HarvestsPanel";
@@ -16,6 +15,7 @@ import UsersPanel from "./features/users/components/UsersPanel";
 import ProfilePanel from "./features/users/components/ProfilePanel";
 import LoginPanel from "./features/auth/components/LoginPanel";
 import ProductsPanel from "./features/products/components/ProductsPanel";
+import DashboardLayout from "./shared/dashboard/layouts/DashboardLayout";
 
 export default function router() {
     return (
