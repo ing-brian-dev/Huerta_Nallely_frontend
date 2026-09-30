@@ -9,6 +9,7 @@ import Tr from '@/shared/ui/Tr'
 import { MenuItem } from '@headlessui/react'
 import { Pencil } from 'lucide-react'
 import type { CustomerWithRelations } from '../schemas/customerSchema'
+import EditCustomer from './EditCustomer'
 
 type CustomersTableProps = {
     customers: CustomerWithRelations[]
@@ -59,7 +60,10 @@ export default function CustomersTable({ customers }: CustomersTableProps) {
                                     <button
                                         type="button"
                                         onClick={() =>
-                                            openModal(customer.id)
+                                            openModal({
+                                                title: `Editar Cliente: ${customer.name}`,
+                                                content: <EditCustomer />
+                                            }, customer.id)
                                         }
                                         className="
                                             flex w-full items-center gap-2.5 rounded-lg px-3 py-2
