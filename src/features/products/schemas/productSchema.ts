@@ -92,8 +92,6 @@ export const GetProductsResponseSchema = ServerResponseSchema.extend({
  * ========================================================= */
 
 export type Product = z.infer<typeof ProductSchema>;
-
 export type CreateProductInput = z.infer<typeof CreateProductSchema>;
-
 export type UpdateProductInput = z.infer<typeof UpdateProductSchema>;
 

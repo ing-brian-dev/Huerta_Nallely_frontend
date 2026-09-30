@@ -3,6 +3,7 @@ import { MenuItem } from "@headlessui/react";
 import { useModalStore } from "@/shared/store/modalStore";
 import type { Product } from "../schemas/productSchema";
 import DropdownMenu from "@/shared/ui/DropdownMenu";
+import EditProduct from "./EditProduct";
 
 type ProductCardProps = { product: Product };
 
@@ -32,7 +33,10 @@ export default function ProductCard({ product }: ProductCardProps) {
                         <MenuItem>
                             <button
                                 type="button"
-                                onClick={() => openModal(product.id)}
+                                onClick={() => openModal({
+                                    title: `Editar Producto: ${product.id}`,
+                                    content: <EditProduct />
+                                }, product.id)}
                                 className="flex w-full cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium text-stone-700 transition-colors hover:bg-emerald-50 hover:text-emerald-800 data-focus:bg-emerald-50 data-focus:text-emerald-800"
                             >
                                 <Pencil size={15} strokeWidth={2} />
