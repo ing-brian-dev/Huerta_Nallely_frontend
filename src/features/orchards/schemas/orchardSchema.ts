@@ -1,5 +1,6 @@
 import { ServerResponseSchema } from "@/shared/dashboard/schemas/globalSchema";
 import { z } from "zod";
+import { OrchardCropSummarySchema } from "./shared";
 
 /* =========================================================
  * Base
@@ -82,6 +83,8 @@ export const OrchardSchema = z.object({
         })
         .nullable(),
 
+    orchardCrops: z.array(OrchardCropSummarySchema).default([]),
+
     createdAt: z.iso.datetime({
         error: "La fecha de creación no tiene un formato válido.",
     }),
@@ -90,10 +93,6 @@ export const OrchardSchema = z.object({
         error: "La fecha de actualización no tiene un formato válido.",
     }),
 });
-
-/* =========================================================
- * Inputs
- * ========================================================= */
 
 export const CreateOrchardSchema = OrchardSchema.pick({
     name: true,
@@ -117,6 +116,16 @@ export const UpdateOrchardSchema = OrchardSchema.pick({
 /* =========================================================
  * Responses
  * ========================================================= */
+
+export const CreateOrchardCropResponseSchema = ServerResponseSchema.extend({
+    data: z.object({}),
+});
+
+export const UpdateOrchardCropResponseSchema = ServerResponseSchema.extend({
+    data: z.object({}),
+});
+
+
 
 export const CreateOrchardResponseSchema = ServerResponseSchema.extend({
     data: z.object({}),

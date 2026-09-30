@@ -1,5 +1,6 @@
 import { handleApiError } from "@/utils/errorHandler";
 import api from "@/lib/axios";
+import type { SelectOption } from "@/shared/forms/FormSearchAutocomplete";
 import { CreateProductResponseSchema, GetProductResponseSchema, GetProductsResponseSchema, UpdateProductResponseSchema, type CreateProductInput, type UpdateProductInput } from "../schemas/productSchema";
 
 export async function createProduct(formData: CreateProductInput) {
@@ -39,6 +40,20 @@ export async function getProductById(id: number) {
         return GetProductResponseSchema.parse(data);
     }
     catch (error) {
+        throw handleApiError(error);
+    }
+}
+
+export async function searchProductsByText(text: string): Promise<SelectOption<number>[]> {
+    try {
+        const { data } = await api.get(`/products/${text}/search`);
+        const response = GetProductsResponseSchema.parse(data);
+
+        return response.data.map((product) => ({
+            value: product.id,
+            label: product.name,
+        }));
+    } catch (error) {
         throw handleApiError(error);
     }
 }

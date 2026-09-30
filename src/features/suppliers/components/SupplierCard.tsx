@@ -3,19 +3,20 @@ import type { Supplier } from "../schemas/supplierSchema";
 import DropdownMenu from "@/shared/ui/DropdownMenu";
 import { MenuItem } from "@headlessui/react";
 import { useModalStore } from "@/shared/store/modalStore";
+import EditSupplier from "./EditSupplier";
 
 interface SupplierCardProps {
-    data: Supplier;
+    supplier: Supplier;
     purchases?: number;
     amount?: string;
     lastPurchaseDate?: string;
 }
 
-export default function SupplierCard({ data, purchases, amount, lastPurchaseDate }: SupplierCardProps) {
+export default function SupplierCard({ supplier, purchases, amount, lastPurchaseDate }: SupplierCardProps) {
 
     const openModal = useModalStore(state => state.openModal);
 
-    const initial = data.name?.trim().slice(0, 2).toUpperCase() || "?";
+    const initial = supplier.name?.trim().slice(0, 2).toUpperCase() || "?";
 
     return (
         <article
@@ -27,14 +28,14 @@ export default function SupplierCard({ data, purchases, amount, lastPurchaseDate
             {/* Header */}
             <div className="flex items-center justify-between gap-3">
                 <div className="flex shrink-0 items-center gap-1.5">
-                    {data.is_active !== undefined && (
+                    {supplier.is_active !== undefined && (
                         <span
-                            className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium ${data.is_active
+                            className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium ${supplier.is_active
                                 ? "bg-emerald-50 text-emerald-700"
                                 : "bg-red-50 text-red-500"
                                 }`}
                         >
-                            {data.is_active ? "Activo" : "Inactivo"}
+                            {supplier.is_active ? "Activo" : "Inactivo"}
                         </span>
                     )}
                 </div>
@@ -42,7 +43,10 @@ export default function SupplierCard({ data, purchases, amount, lastPurchaseDate
                     <MenuItem>
                         <button
                             type="button"
-                            onClick={() => openModal(data.id)}
+                            onClick={() => openModal({
+                                title: `Editar proveedor: ${supplier.name}`,
+                                content: <EditSupplier />
+                            }, supplier.id)}
                             className="
                             flex w-full items-center gap-2.5 rounded-lg px-3 py-2
                             text-sm font-medium text-stone-700 transition-colors
@@ -65,25 +69,25 @@ export default function SupplierCard({ data, purchases, amount, lastPurchaseDate
 
                         <div className="min-w-0">
                             <h3 className="truncate text-[15px] font-semibold leading-tight text-stone-900">
-                                {data.name}
+                                {supplier.name}
                             </h3>
                             <p className=" text-sm leading-tight text-stone-400">
-                                {data.contact_name}
+                                {supplier.contact_name}
                             </p>
                         </div>
                     </div>
                 </div>
                 <div className="flex items-center gap-2.5 text-sm text-stone-600">
                     <Phone className="h-4 w-4 shrink-0 text-stone-400" strokeWidth={1.75} />
-                    <a href={`tel:${data.phone}`} className="truncate">{data.phone}</a>
+                    <a href={`tel:${supplier.phone}`} className="truncate">{supplier.phone}</a>
                 </div>
                 <div className="flex items-center gap-2.5 text-sm text-stone-600">
                     <Mail className="h-4 w-4 shrink-0 text-stone-400" strokeWidth={1.75} />
-                    <a href={`mailto:${data.email}`} className="truncate">{data.email}</a>
+                    <a href={`mailto:${supplier.email}`} className="truncate">{supplier.email}</a>
                 </div>
                 <div className="flex items-center gap-2.5 text-sm text-stone-600">
                     <MapPin className="h-4 w-4 shrink-0 text-stone-400" strokeWidth={1.75} />
-                    <span className="truncate">{data.address}</span>
+                    <span className="truncate">{supplier.address}</span>
                 </div>
             </div>
 
